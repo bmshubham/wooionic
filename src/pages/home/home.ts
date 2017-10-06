@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides } from 'ionic-angular';
+import { NavController, Slides, ToastController } from 'ionic-angular';
 
 import * as WC from 'woocommerce-api';
 
@@ -15,13 +15,13 @@ export class HomePage {
 
   @ViewChild('productSlides') productSlides: Slides;
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public toastCtrl: ToastController) {
     this.page = 2;
 
     // this.wooCommerce = WC({
     //   url: "http://abdesk.in/smartshahula",
-    //   consumerKey: "ck_7c05bb4c8826d8c7753f6d09dce561ec5949aaaf",
-    //   consumerSecret: "cs_337427993ab69c654516cd7917e4efa4eca8a6e1"
+    //   consumerKey: "ck_4bf52c5c084e595334ae966c4049487ec7f2026b",
+    //   consumerSecret: "cs_1d3253f973c25bb1106946f75b1f64e3dd9a8c2f"
     // });
 
     this.wooCommerce = WC({
@@ -49,16 +49,23 @@ export class HomePage {
   }
 
   loadMoreProducts(event) {
-    if(event == null){ this.page = 2; this.moreProducts = []; }
-    else this.page ++;
+    if(event == null) { this.page = 2; this.moreProducts = []; }
+    else this.page++;
 
     this.wooCommerce.getAsync("products?page=" + this.page).then( (data) => {
+      console.log(JSON.parse(data.body));
       this.moreProducts = this.moreProducts.concat(JSON.parse(data.body).products);
-      console.log(this.moreProducts);
+      // console.log(this.moreProducts);
 
       if( event != null ) event.complete();
-
-      if(JSON.parse(data.body).products.length < 10) event.enable(false);
+      
+      if(JSON.parse(data.body).products.length < 10){
+        event.enable(false);
+        this.toastCtrl.create({
+          message: "No More Products!",
+          duration: 5000
+        }).present();
+      }
     }, (err) =>{
       console.log(err);
     });
