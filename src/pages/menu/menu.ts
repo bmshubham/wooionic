@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 
 import { HomePage } from './../home/home';
 import * as WC from 'woocommerce-api';
@@ -28,7 +28,12 @@ export class MenuPage {
       console.log(JSON.parse(data.body).product_categories);
       let cat: any[] = JSON.parse(data.body).product_categories;
       for(let i=0; i<cat.length; i++) {
-        if(cat[i].parent == 0) this.categories.push(cat[i]);
+        if(cat[i].parent == 0) {
+          if(cat[i].slug == "clothing" ) cat[i].icon = "shirt";
+          if(cat[i].slug == "music" ) cat[i].icon = "musical-notes";
+          if(cat[i].slug == "posters" ) cat[i].icon = "images";
+          this.categories.push(cat[i]);
+        }
       }
     }, (err) => {
       console.log(err);
