@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
 import { HomePage } from './../home/home';
+import { ProductsByCategoryPage } from './../products-by-category/products-by-category';
 import * as WC from 'woocommerce-api';
 
 @Component({
@@ -13,16 +14,17 @@ export class MenuPage {
   homePage: any;
   wooCommerce: any;
   categories: any[];
+  @ViewChild('content') childNavCtrl: NavController;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.homePage = HomePage;
     this.categories = [];
     
     this.wooCommerce = WC({
-      url: "http://localhost/wooionic",
-      consumerKey: "ck_ca082272b84a6c6be2f8303861002c41e6062229",
-      consumerSecret: "cs_8e478a8ab1c621f66dac5fc30d15b37223e63ca0"
-    });
+      url: "http://localhost/wooionic",    
+      consumerKey: "ck_beb24c9e9ea77eb4ea1fd19725a75645dc36fc6d",
+      consumerSecret: "cs_5226b937eea8bb306936d8d49fa59113478a79e9"
+  });
 
     this.wooCommerce.getAsync("products/categories").then((data) => {
       console.log(JSON.parse(data.body).product_categories);
@@ -42,5 +44,9 @@ export class MenuPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MenuPage');
+  }
+
+  openCategoryPage(category) {
+    this.childNavCtrl.setRoot(ProductsByCategoryPage, { "category": category })
   }
 }
