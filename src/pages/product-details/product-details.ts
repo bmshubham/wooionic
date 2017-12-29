@@ -21,8 +21,8 @@ export class ProductDetailsPage {
     
     this.wooCommerce = WC({
       url: "http://localhost/wooionic",
-      consumerKey: "ck_ca082272b84a6c6be2f8303861002c41e6062229",
-      consumerSecret: "cs_8e478a8ab1c621f66dac5fc30d15b37223e63ca0"
+      consumerKey: "ck_beb24c9e9ea77eb4ea1fd19725a75645dc36fc6d",
+      consumerSecret: "cs_5226b937eea8bb306936d8d49fa59113478a79e9"
     });
 
     this.wooCommerce.getAsync("products/"+this.product.id+'/reviews').then((data) => {

@@ -42,7 +42,7 @@ export class CartPage {
   }
 
   closeModel() {
-
+    this.viewCtrl.dismiss();
   }
 
   ionViewDidLoad() {
