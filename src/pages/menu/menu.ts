@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 
 import { HomePage } from './../home/home';
 import { ProductsByCategoryPage } from './../products-by-category/products-by-category';
-import * as WC from 'woocommerce-api';
+import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
 
 @Component({
   selector: 'page-menu',
@@ -16,15 +16,11 @@ export class MenuPage {
   categories: any[];
   @ViewChild('content') childNavCtrl: NavController;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public WP: WoocommerceProvider) {
     this.homePage = HomePage;
     this.categories = [];
     
-    this.wooCommerce = WC({
-      url: "http://localhost/wooionic",
-      consumerKey: "ck_beb24c9e9ea77eb4ea1fd19725a75645dc36fc6d",
-      consumerSecret: "cs_5226b937eea8bb306936d8d49fa59113478a79e9"
-    });
+    this.wooCommerce = WP.init();
 
     this.wooCommerce.getAsync("products/categories").then((data) => {
       console.log(JSON.parse(data.body).product_categories);

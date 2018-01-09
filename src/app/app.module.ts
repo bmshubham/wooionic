@@ -14,6 +14,7 @@ import { CartPage } from './../pages/cart/cart';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SignupPage } from '../pages/signup/signup';
+import { WoocommerceProvider } from '../providers/woocommerce/woocommerce';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { SignupPage } from '../pages/signup/signup';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    WoocommerceProvider,
   ]
 })
 export class AppModule {}

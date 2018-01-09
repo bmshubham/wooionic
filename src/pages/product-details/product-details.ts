@@ -3,8 +3,7 @@ import { NavController, NavParams, ToastController, ModalController } from 'ioni
 import { Storage } from '@ionic/storage';
 
 import { CartPage } from './../cart/cart';
-
-import * as WC from 'woocommerce-api';
+import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
 
 @Component({
   selector: 'page-product-details',
@@ -15,15 +14,11 @@ export class ProductDetailsPage {
   wooCommerce: any;
   reviews: any[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public toastCtrl: ToastController, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public toastCtrl: ToastController, public modalCtrl: ModalController, public WP: WoocommerceProvider) {
     this.product = this.navParams.get("product");
     console.log(this.product);
     
-    this.wooCommerce = WC({
-      url: "http://localhost/wooionic",
-      consumerKey: "ck_beb24c9e9ea77eb4ea1fd19725a75645dc36fc6d",
-      consumerSecret: "cs_5226b937eea8bb306936d8d49fa59113478a79e9"
-    });
+    this.wooCommerce = WP.init();
 
     this.wooCommerce.getAsync("products/"+this.product.id+'/reviews').then((data) => {
       this.reviews = JSON.parse(data.body).product_reviews;
