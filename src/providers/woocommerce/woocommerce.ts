@@ -5,6 +5,8 @@ import * as WC from 'woocommerce-api';
 @Injectable()
 export class WoocommerceProvider {
   wooCommerce: any;
+
+  public loginUrl = 'http://localhost/wooionic/api/auth/generate_auth_cookie/?insecure=cool';
   
   constructor() {
     this.wooCommerce = WC({

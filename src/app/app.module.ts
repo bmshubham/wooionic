@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -15,6 +16,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SignupPage } from '../pages/signup/signup';
 import { WoocommerceProvider } from '../providers/woocommerce/woocommerce';
+import { LoginPage } from '../pages/login/login';
 
 @NgModule({
   declarations: [
@@ -25,10 +27,12 @@ import { WoocommerceProvider } from '../providers/woocommerce/woocommerce';
     ProductsByCategoryPage,
     ProductDetailsPage,
     CartPage,
-    SignupPage
+    SignupPage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
@@ -41,7 +45,8 @@ import { WoocommerceProvider } from '../providers/woocommerce/woocommerce';
     ProductsByCategoryPage,
     ProductDetailsPage,
     CartPage,
-    SignupPage
+    SignupPage,
+    LoginPage
   ],
   providers: [
     StatusBar,

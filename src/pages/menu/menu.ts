@@ -1,7 +1,11 @@
+import { Storage } from '@ionic/storage';
 import { Component, ViewChild } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 
 import { HomePage } from './../home/home';
+import { SignupPage } from '../signup/signup';
+import { LoginPage } from '../login/login';
+import { CartPage } from './../cart/cart';
 import { ProductsByCategoryPage } from './../products-by-category/products-by-category';
 import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
 
@@ -14,11 +18,14 @@ export class MenuPage {
   homePage: any;
   wooCommerce: any;
   categories: any[];
+  loggedIn: boolean;
+  user: any;
   @ViewChild('content') childNavCtrl: NavController;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public WP: WoocommerceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public WP: WoocommerceProvider, public storage: Storage, public modalCtrl: ModalController) {
     this.homePage = HomePage;
     this.categories = [];
+    this.user = {};
     
     this.wooCommerce = WP.init();
 
@@ -38,11 +45,38 @@ export class MenuPage {
     })
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MenuPage');
+  ionViewDidEnter() {
+    this.storage.ready().then( () => {
+      this.storage.get('userData').then( (userData) => {
+        if(userData != null) {
+          this.user = userData.user;
+          this.loggedIn = true;
+        } else {
+          this.user = {};
+          this.loggedIn = false;
+        }
+      })
+    })
   }
 
   openCategoryPage(category) {
     this.childNavCtrl.setRoot(ProductsByCategoryPage, { "category": category })
+  }
+
+  openPage(pageName: string) {
+    if(pageName == 'signup')
+      this.navCtrl.push(SignupPage);
+    if(pageName == 'login')
+      this.navCtrl.push(LoginPage);
+    if(pageName == 'cart') {
+      let modal = this.modalCtrl.create(CartPage);
+      modal.present();
+    }
+    if(pageName == 'logout') {
+      this.storage.remove('userData').then( () => {
+        this.user = '';
+        this.loggedIn = false;
+      })
+    }
   }
 }
