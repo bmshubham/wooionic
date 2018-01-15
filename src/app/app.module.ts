@@ -11,6 +11,7 @@ import { ListPage } from '../pages/list/list';
 import { ProductsByCategoryPage } from '../pages/products-by-category/products-by-category';
 import { ProductDetailsPage } from './../pages/product-details/product-details';
 import { CartPage } from './../pages/cart/cart';
+import { CheckoutPage } from './../pages/checkout/checkout';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -28,7 +29,8 @@ import { LoginPage } from '../pages/login/login';
     ProductDetailsPage,
     CartPage,
     SignupPage,
-    LoginPage
+    LoginPage,
+    CheckoutPage
   ],
   imports: [
     BrowserModule,
@@ -46,7 +48,8 @@ import { LoginPage } from '../pages/login/login';
     ProductDetailsPage,
     CartPage,
     SignupPage,
-    LoginPage
+    LoginPage,
+    CheckoutPage
   ],
   providers: [
     StatusBar,

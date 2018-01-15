@@ -11,10 +11,12 @@ import { WoocommerceProvider } from '../../providers/woocommerce/woocommerce';
 export class LoginPage {
   username: string;
   password: string;
+  redirect: any;
 
   constructor(public http: Http, public WP: WoocommerceProvider, public alertCtrl: AlertController, public toastCtrl: ToastController, public storage: Storage, public navParams: NavParams, public navCtrl: NavController) {
     this.username = '';
     this.password = '';
+    this.redirect = this.navParams.get('next');
   }
 
   login() {
@@ -36,8 +38,9 @@ export class LoginPage {
           buttons: [{
             text: "OK",
             handler: () => {
-              if(this.navParams.get('next'))
-                this.navCtrl.push(this.navParams.get('next'));
+              if(this.redirect) {
+                this.navCtrl.push(this.redirect);
+              }
               else this.navCtrl.pop();
             }
           }]

@@ -92,7 +92,8 @@ export class SignupPage {
     }
     if(this.billing_shipping_same)
       this.newUser.shipping_address = this.newUser.billing_address;
-
+    
+      console.log(customerData);
     this.wooCommerce.postAsync('customers', customerData).then( (data) => {
       let response = JSON.parse(data.body);
       if(response.customer) {
