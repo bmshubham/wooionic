@@ -25,11 +25,11 @@ export class SignupPage {
     this.billing_shipping_same = !this.billing_shipping_same;
   }
 
-  checkEmail(emailId) {
+  checkEmail() {
     let validEmail = false;
     let reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (reg.test(emailId._value)) {
-      this.wooCommerce.getAsync('customers/email/' + emailId._value).then( (data) => {
+    if (reg.test(this.newUser.email)) {
+      this.wooCommerce.getAsync('customers/email/' + this.newUser.value).then( (data) => {
         let res = JSON.parse(data.body);
         if(res.errors) {
           validEmail = true;
@@ -93,7 +93,6 @@ export class SignupPage {
     if(this.billing_shipping_same)
       this.newUser.shipping_address = this.newUser.billing_address;
     
-      console.log(customerData);
     this.wooCommerce.postAsync('customers', customerData).then( (data) => {
       let response = JSON.parse(data.body);
       if(response.customer) {

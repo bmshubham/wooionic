@@ -1,3 +1,5 @@
+import { HomePage } from './../home/home';
+import { NavController, AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { Component } from '@angular/core';
 
@@ -15,7 +17,7 @@ export class CheckoutPage {
   billing_shipping_same: boolean;
   userData: any;
 
-  constructor(public storage: Storage, public WP: WoocommerceProvider) {
+  constructor(public storage: Storage, public WP: WoocommerceProvider, public navCtrl: NavController, public alertCtrl: AlertController) {
     this.wooCommerce = WP.init();
     this.newOrder = {};
     this.newOrder.billing_address = {};
@@ -35,7 +37,7 @@ export class CheckoutPage {
 
       this.wooCommerce.getAsync('customers/email/'+email).then( (data) => {
         this.newOrder = JSON.parse(data.body).customer;
-        console.log(this.newOrder);
+        // console.log(this.newOrder);
       })
     })
   }
@@ -66,23 +68,37 @@ export class CheckoutPage {
       customer_id: this.userData.id || '',
       line_items: orderItems
     };
+    // console.log(data);
 
     if(paymentData.method_id == 'paypal')
       console.log(paymentData);
     else {
-      this.storage.get('cart').then( (data) => {
-        data.forEach( (element, index) => {
+      this.storage.get('cart').then( (cart) => {
+        cart.forEach( (element, index) => {
           orderItems.push({
             product_id: element.product.id,
             quantity: element.qty
           });
         });
         data.line_items = orderItems;
+        // console.log(data);
 
         let orderData: any = {};
         orderData.order = data;
+        // console.log(orderData);
         this.wooCommerce.postAsync('orders', orderData).then( (data) => {
-          console.log(JSON.parse(data.body).order);
+          // console.log(JSON.parse(data.body).order);
+          let response = (JSON.parse(data.body).order);
+          this.alertCtrl.create({
+            title: "Order Placed Successfully",
+            message: "Your order has been placed successfully. Your order number is " + response.order_number,
+            buttons: [{
+              text: "OK",
+              handler: () => {
+                this.navCtrl.setRoot(HomePage);
+              }
+            }]
+          }).present();
         })
       })
     }
