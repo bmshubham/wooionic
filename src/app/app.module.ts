@@ -3,6 +3,8 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
+import { OneSignal } from '@ionic-native/onesignal';
+import { PayPal } from '@ionic-native/paypal';
 
 import { MyApp } from './app.component';
 import { MenuPage } from './../pages/menu/menu';
@@ -12,6 +14,7 @@ import { ProductsByCategoryPage } from '../pages/products-by-category/products-b
 import { ProductDetailsPage } from './../pages/product-details/product-details';
 import { CartPage } from './../pages/cart/cart';
 import { CheckoutPage } from './../pages/checkout/checkout';
+import { SearchPage } from './../pages/search/search';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -30,7 +33,8 @@ import { LoginPage } from '../pages/login/login';
     CartPage,
     SignupPage,
     LoginPage,
-    CheckoutPage
+    CheckoutPage,
+    SearchPage
   ],
   imports: [
     BrowserModule,
@@ -49,13 +53,16 @@ import { LoginPage } from '../pages/login/login';
     CartPage,
     SignupPage,
     LoginPage,
-    CheckoutPage
+    CheckoutPage,
+    SearchPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     WoocommerceProvider,
+    OneSignal,
+    PayPal
   ]
 })
 export class AppModule {}
